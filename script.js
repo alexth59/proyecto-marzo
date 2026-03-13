@@ -1,18 +1,37 @@
-// 1. Buscamos el formulario en el HTML por su ID
+// 1. Buscamos el formulario
 const formulario = document.getElementById('miFormulario');
 
-// 2. Definimos la función que "evalúa" y lanza el alert
+// 2. Función que evalúa el envío y redirecciona
 function evaluarEnvio(event) {
-    // Evitamos que la página se recargue
-    event.preventDefault();
+    event.preventDefault(); // Evita que la página se refresque
 
-    // La tarea específica: lanzar el alert con el mensaje exacto
-    alert("llegó");
+    // Capturamos el valor que el usuario escribió en el campo de "Nombre"
+    // (O puedes añadir un nuevo input exclusivo para el Rol)
+    const valorIngresado = document.getElementById('nombre').value.toLowerCase().trim();
 
-    // Opcional: seguimos viendo los datos en consola para control
-    const nombre = document.getElementById('nombre').value;
-    console.log("Nombre evaluado:", nombre);
+    // EVALUACIÓN con Switch and Case
+    switch (valorIngresado) {
+        case "cliente":
+            alert("Redireccionando a Cliente...");
+            window.location.href = "cliente.html"; // Carga el nuevo HTML
+            break;
+
+        case "personal":
+            alert("Redireccionando a Personal...");
+            window.location.href = "personal.html";
+            break;
+
+        case "administrador":
+            alert("Redireccionando a Administrador...");
+            window.location.href = "administrador.html";
+            break;
+
+        default:
+            // Si escribe cualquier otra cosa que no sea x, y o z
+            alert("Acceso denegado. Rol '" + valorIngresado + "' no reconocido.");
+            break;
+    }
 }
 
-// 3. Escuchamos el evento "submit" y llamamos a la función
+// 3. Escuchamos el evento
 formulario.addEventListener('submit', evaluarEnvio);
