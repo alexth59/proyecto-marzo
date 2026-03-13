@@ -1,7 +1,7 @@
 const formulario = document.getElementById('miFormulario');
 
-// Nuestra "base de datos" de usuarios permitidos
-const usuariosAutorizados = ["alex", "profe", "admin"];
+// Solo una declaración con TODOS los usuarios que quieres permitir
+const usuariosAutorizados = ["alex", "profe", "admin", "cliente", "personal", "administrador"];
 
 function login(event) {
     event.preventDefault();
@@ -9,19 +9,20 @@ function login(event) {
     const user = document.getElementById('usuario').value.toLowerCase().trim();
     const pass = document.getElementById('password').value;
 
-    let encontrado = false;
+    let usuarioValido = false;
 
-    // RECORREMOS el arreglo para ver si el usuario existe
+    // RECORREMOS el arreglo para validar si el usuario existe
     usuariosAutorizados.forEach(function(autorizado) {
         if (user === autorizado) {
-            encontrado = true;
+            usuarioValido = true;
         }
     });
 
-    // Evaluamos el resultado del recorrido
-    if (encontrado && pass === "1234") {
-        alert("Bienvenido " + user);
-        // Aquí podrías usar tu switch anterior para redireccionar
+    if (usuarioValido && pass === "1234") {
+        alert("Acceso concedido como: " + user);
+        
+        // Redirección dinámica: si el usuario es "cliente", busca "cliente.html"
+        window.location.href = user + ".html"; 
     } else {
         alert("Usuario o contraseña incorrectos.");
     }
