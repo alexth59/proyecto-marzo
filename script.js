@@ -1,37 +1,30 @@
-// 1. Buscamos el formulario
 const formulario = document.getElementById('miFormulario');
 
-// 2. Función que evalúa el envío y redirecciona
-function evaluarEnvio(event) {
-    event.preventDefault(); // Evita que la página se refresque
+// Nuestra "base de datos" de usuarios permitidos
+const usuariosAutorizados = ["alex", "profe", "admin"];
 
-    // Capturamos el valor que el usuario escribió en el campo de "Nombre"
-    // (O puedes añadir un nuevo input exclusivo para el Rol)
-    const valorIngresado = document.getElementById('nombre').value.toLowerCase().trim();
+function login(event) {
+    event.preventDefault();
 
-    // EVALUACIÓN con Switch and Case
-    switch (valorIngresado) {
-        case "cliente":
-            alert("Redireccionando a Cliente...");
-            window.location.href = "cliente.html"; // Carga el nuevo HTML
-            break;
+    const user = document.getElementById('usuario').value.toLowerCase().trim();
+    const pass = document.getElementById('password').value;
 
-        case "personal":
-            alert("Redireccionando a Personal...");
-            window.location.href = "personal.html";
-            break;
+    let encontrado = false;
 
-        case "administrador":
-            alert("Redireccionando a Administrador...");
-            window.location.href = "administrador.html";
-            break;
+    // RECORREMOS el arreglo para ver si el usuario existe
+    usuariosAutorizados.forEach(function(autorizado) {
+        if (user === autorizado) {
+            encontrado = true;
+        }
+    });
 
-        default:
-            // Si escribe cualquier otra cosa que no sea x, y o z
-            alert("Acceso denegado. Rol '" + valorIngresado + "' no reconocido.");
-            break;
+    // Evaluamos el resultado del recorrido
+    if (encontrado && pass === "1234") {
+        alert("Bienvenido " + user);
+        // Aquí podrías usar tu switch anterior para redireccionar
+    } else {
+        alert("Usuario o contraseña incorrectos.");
     }
 }
 
-// 3. Escuchamos el evento
-formulario.addEventListener('submit', evaluarEnvio);
+formulario.addEventListener('submit', login);
