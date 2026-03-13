@@ -1,20 +1,18 @@
 // 1. Buscamos el formulario en el HTML por su ID
 const formulario = document.getElementById('miFormulario');
 
-// 2. Escuchamos el evento "submit"
-formulario.addEventListener('submit', function(event) {
-    // Evitamos que la página se recargue (comportamiento por defecto)
+// 2. Definimos la función que "evalúa" y lanza el alert
+function evaluarEnvio(event) {
+    // Evitamos que la página se recargue
     event.preventDefault();
 
-    // 3. Obtenemos los valores de los inputs
+    // La tarea específica: lanzar el alert con el mensaje exacto
+    alert("llegó");
+
+    // Opcional: seguimos viendo los datos en consola para control
     const nombre = document.getElementById('nombre').value;
-    const correo = document.getElementById('correo').value;
+    console.log("Nombre evaluado:", nombre);
+}
 
-    // 4. ¿A dónde van los datos? 
-    // Por ahora, los mostraremos en la consola del navegador
-    console.log("Datos recibidos:");
-    console.log("Nombre:", nombre);
-    console.log("Correo:", correo);
-
-    alert("¡Formulario enviado con éxito, " + nombre + "!");
-});
+// 3. Escuchamos el evento "submit" y llamamos a la función
+formulario.addEventListener('submit', evaluarEnvio);
