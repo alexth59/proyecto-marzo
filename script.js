@@ -1,5 +1,9 @@
 // 1. DATOS ESTÁTICOS (Base de datos simulada)
-const usuariosAutorizados = ["alex", "profe", "admin", "cliente", "personal", "administrador"];
+const usuariosAutorizados = [
+    { usuario: "ClienteUCV", clave: "Central_123", rol: "cliente" },
+    { usuario: "caja_01", clave: "Cajero#123", rol: "personal" },
+    { usuario: "adminRoot", clave: "cafetinAdmin", rol: "administrador" }
+];
 
 const menuCafetin = [
     { id: 1, nombre: "Empanada", precio: 1.50 },
@@ -14,17 +18,16 @@ let totalCuenta = 0;
 // 2. FUNCIÓN DE LOGIN (Para index.html)
 function login(event) {
     event.preventDefault();
-    const user = document.getElementById('usuario').value.toLowerCase().trim();
+    const user = document.getElementById('usuario').value.trim();
     const pass = document.getElementById('password').value;
 
-    let usuarioValido = false;
-    usuariosAutorizados.forEach(autorizado => {
-        if (user === autorizado) usuarioValido = true;
-    });
+    const credencialValida = usuariosAutorizados.find(
+        credencial => credencial.usuario === user && credencial.clave === pass
+    );
 
-    if (usuarioValido && pass === "1234") {
-        alert("Acceso concedido como: " + user);
-        window.location.href = user + ".html";
+    if (credencialValida) {
+        alert("Acceso concedido como: " + credencialValida.usuario);
+        window.location.href = credencialValida.rol + ".html";
     } else {
         alert("Usuario o contraseña incorrectos.");
     }
@@ -67,40 +70,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Si estamos en la página del cliente (cliente.html)
     if (document.getElementById('lista-menu')) {
         mostrarMenu();
-    }
-});
-
-// --- FUNCIONES DE ADMINISTRADOR ---
-function actualizarAdmin() {
-    const cont = document.getElementById('lista-menu-admin');
-    if (!cont) return;
-    cont.innerHTML = menuCafetin.map(p => `<li>${p.nombre} - $${p.precio.toFixed(2)}</li>`).join('');
-}
-
-const formAdmin = document.getElementById('form-admin');
-if (formAdmin) {
-    formAdmin.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const n = document.getElementById('nuevo-nombre').value;
-        const p = parseFloat(document.getElementById('nuevo-precio').value);
-        
-        // AGREGAR AL ARREGLO (Requerimiento de ingeniería)
-        menuCafetin.push({ id: menuCafetin.length + 1, nombre: n, precio: p });
-        
-        actualizarAdmin();
-        alert("Producto agregado con éxito");
-    });
-}
-
-// --- FUNCIONES DE PERSONAL ---
-function finalizarVenta() {
-    alert("Venta procesada con éxito. El inventario ha sido actualizado.");
-    location.reload(); // Reinicia la simulación
-}
-
-// Al cargar, si es admin, mostrar su lista
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('lista-menu-admin')) {
-        actualizarAdmin();
     }
 });
