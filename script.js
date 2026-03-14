@@ -69,3 +69,38 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarMenu();
     }
 });
+
+// --- FUNCIONES DE ADMINISTRADOR ---
+function actualizarAdmin() {
+    const cont = document.getElementById('lista-menu-admin');
+    if (!cont) return;
+    cont.innerHTML = menuCafetin.map(p => `<li>${p.nombre} - $${p.precio.toFixed(2)}</li>`).join('');
+}
+
+const formAdmin = document.getElementById('form-admin');
+if (formAdmin) {
+    formAdmin.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const n = document.getElementById('nuevo-nombre').value;
+        const p = parseFloat(document.getElementById('nuevo-precio').value);
+        
+        // AGREGAR AL ARREGLO (Requerimiento de ingeniería)
+        menuCafetin.push({ id: menuCafetin.length + 1, nombre: n, precio: p });
+        
+        actualizarAdmin();
+        alert("Producto agregado con éxito");
+    });
+}
+
+// --- FUNCIONES DE PERSONAL ---
+function finalizarVenta() {
+    alert("Venta procesada con éxito. El inventario ha sido actualizado.");
+    location.reload(); // Reinicia la simulación
+}
+
+// Al cargar, si es admin, mostrar su lista
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('lista-menu-admin')) {
+        actualizarAdmin();
+    }
+});
